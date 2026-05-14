@@ -48,6 +48,15 @@
          url("https://fonts.gstatic.com/s/bowlbyone/v23/taiPGmVuC4y96PFeqp8sqomI_OE.woff2") format("woff2");
 }
 
+@font-face {
+    font-family: "Borsok";
+    font-style: normal;
+    font-weight: 400;
+    font-display: swap;
+    src: url("../borsok-font/boorsok.ttf") format("truetype"),
+         url("../borsok-font/boorsok.otf") format("opentype");
+}
+
 
 /* ----------------------------------------------------------
    2. Reset & base
@@ -237,6 +246,40 @@ a:focus-visible {
     color: #fff;
 }
 
+.lang-picker-wrap {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-size: 0.85rem;
+    color: var(--color-text-muted);
+}
+
+.lang-picker-wrap__label {
+    font-weight: 500;
+}
+
+.lang-picker {
+    appearance: none;
+    -webkit-appearance: none;
+    background: var(--color-surface);
+    border: 1px solid rgba(70, 45, 20, 0.2);
+    border-radius: var(--radius-sm);
+    padding: 0.35rem 1.6rem 0.35rem 0.65rem;
+    font: inherit;
+    font-size: 0.9rem;
+    color: var(--color-text);
+    cursor: pointer;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 8'><path fill='%236a5a48' d='M1 1l5 5 5-5'/></svg>");
+    background-repeat: no-repeat;
+    background-position: right 0.5rem center;
+    background-size: 10px 7px;
+}
+
+.lang-picker:focus-visible {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 2px;
+}
+
 
 /* ----------------------------------------------------------
    5. Hero
@@ -283,6 +326,7 @@ a:focus-visible {
 }
 
 .hero__lead {
+    font-family: "Borsok", var(--font-body);
     font-size: 1.05rem;
     color: var(--color-text-muted);
     margin: 0 auto var(--space-3);
@@ -332,6 +376,7 @@ a:focus-visible {
     padding: 0.7em 1em;
     border-radius: var(--radius-sm);
     color: var(--color-text);
+    font-family: "Borsok", var(--font-body);
     font-weight: 500;
     background: transparent;
     transition: background 0.15s ease;
@@ -422,6 +467,7 @@ a:focus-visible {
 }
 
 .section__intro {
+    font-family: "Borsok", var(--font-body);
     color: var(--color-text-muted);
     max-width: 60ch;
     margin: 0 auto;
@@ -429,6 +475,7 @@ a:focus-visible {
 }
 
 .section__notes {
+    font-family: "Borsok", var(--font-body);
     max-width: 64ch;
     margin: 0 auto var(--space-3);
     padding-left: var(--space-3);
@@ -449,17 +496,46 @@ a:focus-visible {
     padding: 0;
     margin: 0;
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
     gap: var(--space-2);
 }
 
 .parts-grid figure {
     margin: 0;
+    position: relative;
     display: flex;
     flex-direction: column;
     align-items: center;
     gap: var(--space-1);
     transition: transform 0.2s ease;
+}
+
+.badge-new {
+    position: absolute;
+    top: -6px;
+    left: -6px;
+    width: 58px;
+    height: 58px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #e63946;
+    color: #fff;
+    font-family: "Fredoka", var(--font-display);
+    font-weight: 700;
+    font-size: 14px;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    transform: rotate(-15deg);
+    clip-path: polygon(
+        50% 0%, 58.3% 19.1%, 75% 6.7%, 72.6% 27.4%, 93.3% 25%, 80.9% 41.7%,
+        100% 50%, 80.9% 58.3%, 93.3% 75%, 72.6% 72.6%, 75% 93.3%, 58.3% 80.9%,
+        50% 100%, 41.7% 80.9%, 25% 93.3%, 27.4% 72.6%, 6.7% 75%, 19.1% 58.3%,
+        0% 50%, 19.1% 41.7%, 6.7% 25%, 27.4% 27.4%, 25% 6.7%, 41.7% 19.1%
+    );
+    filter: drop-shadow(0 2px 3px rgba(0, 0, 0, 0.25));
+    pointer-events: none;
+    z-index: 2;
 }
 
 .parts-grid figure:hover {
@@ -474,32 +550,19 @@ a:focus-visible {
 }
 
 .parts-grid figcaption {
-    font-family: var(--font-display);
-    font-size: 0.85rem;
+    font-family: "Borsok", "Fredoka", var(--font-display);
+    font-weight: 600;
+    font-size: 0.95rem;
     color: var(--color-text);
     text-align: center;
-    letter-spacing: 0.5px;
+    letter-spacing: 0.8px;
     text-transform: uppercase;
+    line-height: 1.1;
 }
 
 
 /* ----------------------------------------------------------
-   7c. Composite page fallback (page 7)
-   ---------------------------------------------------------- */
-.composite-figure {
-    margin: var(--space-3) 0 0;
-    text-align: center;
-}
-
-.composite-figure img {
-    margin: 0 auto;
-    border-radius: var(--radius-md);
-    background: var(--color-bg);
-}
-
-
-/* ----------------------------------------------------------
-   7d. Symbols layout
+   7c. Symbols layout
    ---------------------------------------------------------- */
 .symbols-layout {
     display: grid;
@@ -692,6 +755,10 @@ a:focus-visible {
         display: none;
     }
 
+    .lang-picker-wrap__label {
+        display: none;
+    }
+
     .hero__overlay {
         margin-top: -60px;
         padding: var(--space-3) var(--space-2);
@@ -738,6 +805,7 @@ a:focus-visible {
     .back-to-top,
     .cta,
     .site-header__nav,
+    .lang-picker-wrap,
     .toc {
         display: none !important;
     }

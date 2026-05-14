@@ -1,6 +1,7 @@
 /**
  * Cute Flexi Maker — Parts Guide
  * Small, dependency-free progressive enhancements:
+ *   - i18n: swap text from locales/<lang>.json based on data-i18n attributes
  *   - Active section highlight in the header nav
  *   - Show/hide back-to-top button on scroll
  *   - Click-to-zoom for page figures
@@ -17,6 +18,109 @@
 
     function $$(selector, scope) {
         return Array.from((scope || document).querySelectorAll(selector));
+    }
+
+
+    /* ----------- i18n ----------- */
+
+    var SUPPORTED_LANGS = ["en", "pt-BR", "es", "de"];
+    var DEFAULT_LANG = "en";
+    var STORAGE_KEY = "cfm-lang";
+
+    function detectInitialLang() {
+        var stored = null;
+        try {
+            stored = localStorage.getItem(STORAGE_KEY);
+        } catch (_) { /* private mode */ }
+        if (stored && SUPPORTED_LANGS.indexOf(stored) !== -1) {
+            return stored;
+        }
+        var nav = (navigator.languages && navigator.languages[0]) || navigator.language || "";
+        if (nav) {
+            // exact match first (e.g. "pt-BR")
+            for (var i = 0; i < SUPPORTED_LANGS.length; i++) {
+                if (SUPPORTED_LANGS[i].toLowerCase() === nav.toLowerCase()) {
+                    return SUPPORTED_LANGS[i];
+                }
+            }
+            // base-language fallback (e.g. "pt" → "pt-BR", "de-AT" → "de")
+            var navBase = nav.split("-")[0].toLowerCase();
+            for (var j = 0; j < SUPPORTED_LANGS.length; j++) {
+                if (SUPPORTED_LANGS[j].split("-")[0].toLowerCase() === navBase) {
+                    return SUPPORTED_LANGS[j];
+                }
+            }
+        }
+        return DEFAULT_LANG;
+    }
+
+    var dictionary = {};
+
+    function t(key) {
+        return Object.prototype.hasOwnProperty.call(dictionary, key) ? dictionary[key] : null;
+    }
+
+    function applyTranslations() {
+        // textContent
+        $$("[data-i18n]").forEach(function (el) {
+            var value = t(el.getAttribute("data-i18n"));
+            if (value !== null) {
+                el.textContent = value;
+            }
+        });
+        // attribute translations: data-i18n-<attr>
+        $$("[data-i18n-alt]").forEach(function (el) {
+            var v = t(el.getAttribute("data-i18n-alt"));
+            if (v !== null) { el.setAttribute("alt", v); }
+        });
+        $$("[data-i18n-aria-label]").forEach(function (el) {
+            var v = t(el.getAttribute("data-i18n-aria-label"));
+            if (v !== null) { el.setAttribute("aria-label", v); }
+        });
+        $$("[data-i18n-content]").forEach(function (el) {
+            var v = t(el.getAttribute("data-i18n-content"));
+            if (v !== null) { el.setAttribute("content", v); }
+        });
+        // document title
+        var titleEl = document.querySelector("title[data-i18n]");
+        if (titleEl) {
+            var v = t(titleEl.getAttribute("data-i18n"));
+            if (v !== null) { document.title = v; }
+        }
+    }
+
+    function loadLocale(lang) {
+        return fetch("locales/" + lang + ".json", { cache: "no-cache" })
+            .then(function (res) {
+                if (!res.ok) { throw new Error("locale " + lang + " not found"); }
+                return res.json();
+            });
+    }
+
+    function setLanguage(lang) {
+        if (SUPPORTED_LANGS.indexOf(lang) === -1) { lang = DEFAULT_LANG; }
+        return loadLocale(lang).then(function (dict) {
+            dictionary = dict;
+            document.documentElement.lang = lang;
+            applyTranslations();
+            try { localStorage.setItem(STORAGE_KEY, lang); } catch (_) {}
+            var picker = $(".lang-picker");
+            if (picker) { picker.value = lang; }
+        }).catch(function (err) {
+            if (lang !== DEFAULT_LANG) {
+                console.warn("i18n:", err.message, "— falling back to", DEFAULT_LANG);
+                return setLanguage(DEFAULT_LANG);
+            }
+            console.warn("i18n: default locale failed to load:", err.message);
+        });
+    }
+
+    function setupLanguagePicker() {
+        var picker = $(".lang-picker");
+        if (!picker) { return; }
+        picker.addEventListener("change", function () {
+            setLanguage(picker.value);
+        });
     }
 
 
@@ -240,7 +344,7 @@
             ".zoom-modal__caption {",
             "  margin: 0;",
             "  color: #f5ecdc;",
-            "  font-family: var(--font-display, system-ui), sans-serif;",
+            "  font-family: \"Borsok\", \"Fredoka\", var(--font-display, system-ui), sans-serif;",
             "  font-size: 1.1rem;",
             "  letter-spacing: 1px;",
             "  text-transform: uppercase;",
@@ -267,6 +371,8 @@
     /* ----------- Init ----------- */
 
     function init() {
+        setupLanguagePicker();
+        setLanguage(detectInitialLang());
         setupActiveNavHighlight();
         setupBackToTop();
         setupImageZoom();
