@@ -15,7 +15,7 @@
 
   "hero.eyebrow": "Version 1.0",
   "hero.title": "Teile-Übersicht",
-  "hero.lead": "Alle Basistiere, Köpfe, Körperteile, Accessoires und Details, die du im Cute Flexi Maker kombinieren kannst.",
+  "hero.lead": "Stöbere durch alle Teile, die in Cute Flexi Maker verfügbar sind. Beginne mit einem Basistier und gestalte dann Köpfe, Augen, Ohren, Beine, Accessoires und Details, um deinen perfekten Flexi zu entwerfen. Nutze das Inhaltsverzeichnis unten, um direkt zu jeder Kategorie zu springen.",
   "hero.browse": "Übersicht öffnen",
   "hero.download": "PDF herunterladen",
 
@@ -151,7 +151,7 @@
   "part.long": "Lang",
   "part.reptile": "Reptil",
   "part.sleep": "Schlafend",
-  "part.smily": "Lächelnd",
+  "part.smiley": "Lächelnd",
   "part.x": "X",
   "part.cowboy": "Cowboy",
   "part.detective": "Detektiv",
@@ -165,7 +165,7 @@
   "part.generic": "Standard",
   "part.small": "Klein",
   "part.raptor": "Raptor",
-  "part.tuffed": "Büschel",
+  "part.tufted": "Büschel",
   "part.sting": "Stachel",
   "part.apple": "Apfel",
   "part.bow": "Schleife",
