@@ -1,0 +1,753 @@
+/* ============================================================
+   Cute Flexi Maker — Parts Guide
+   Stylesheet (organized in clearly labelled sections)
+   ============================================================ */
+
+
+/* ----------------------------------------------------------
+   1. Design tokens
+   ---------------------------------------------------------- */
+:root {
+    /* Colors */
+    --color-bg: #f5ecdc;
+    --color-surface: #ffffff;
+    --color-surface-alt: #ede2cc;
+    --color-text: #2a2118;
+    --color-text-muted: #6a5a48;
+    --color-accent: #d97e3a;
+    --color-accent-dark: #b15a1f;
+    --color-shadow: rgba(70, 45, 20, 0.12);
+
+    /* Typography */
+    --font-display: "Bowlby One", "Bungee", system-ui, -apple-system, sans-serif;
+    --font-body: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+
+    /* Spacing */
+    --space-1: 0.5rem;
+    --space-2: 1rem;
+    --space-3: 1.5rem;
+    --space-4: 2rem;
+    --space-5: 3rem;
+    --space-6: 4rem;
+
+    /* Layout */
+    --content-max: 960px;
+    --content-wide-max: 1100px;
+    --radius-sm: 8px;
+    --radius-md: 16px;
+    --radius-lg: 24px;
+    --header-height: 68px;
+}
+
+@font-face {
+    font-family: "Bowlby One";
+    font-style: normal;
+    font-weight: 400;
+    font-display: swap;
+    src: local("Bowlby One"),
+         url("https://fonts.gstatic.com/s/bowlbyone/v23/taiPGmVuC4y96PFeqp8sqomI_OE.woff2") format("woff2");
+}
+
+
+/* ----------------------------------------------------------
+   2. Reset & base
+   ---------------------------------------------------------- */
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+    scroll-padding-top: calc(var(--header-height) + 16px);
+}
+
+body {
+    margin: 0;
+    background: var(--color-bg);
+    color: var(--color-text);
+    font-family: var(--font-body);
+    font-size: 16px;
+    line-height: 1.55;
+    -webkit-font-smoothing: antialiased;
+}
+
+img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+}
+
+h1, h2, h3 {
+    font-family: var(--font-display);
+    line-height: 1.1;
+    letter-spacing: 0.5px;
+    margin: 0;
+}
+
+a {
+    color: var(--color-accent-dark);
+    text-decoration: none;
+}
+
+a:hover,
+a:focus-visible {
+    text-decoration: underline;
+}
+
+.skip-link {
+    position: absolute;
+    left: -9999px;
+    top: 0;
+    background: var(--color-text);
+    color: #fff;
+    padding: var(--space-2);
+    z-index: 1000;
+}
+
+.skip-link:focus {
+    left: var(--space-2);
+    top: var(--space-2);
+}
+
+/* Empty anchor used to offset scrollIntoView for sub-sections that share a page */
+.anchor-offset {
+    display: block;
+    height: 0;
+    width: 0;
+    position: relative;
+    top: calc(var(--header-height) * -1);
+    visibility: hidden;
+}
+
+
+/* ----------------------------------------------------------
+   3. Buttons
+   ---------------------------------------------------------- */
+.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5em;
+    padding: 0.65em 1.2em;
+    border-radius: 999px;
+    font-weight: 600;
+    font-size: 0.95rem;
+    line-height: 1;
+    cursor: pointer;
+    border: 2px solid transparent;
+    transition: transform 0.15s ease, background 0.15s ease, color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.btn--primary {
+    background: var(--color-accent);
+    color: #fff;
+    box-shadow: 0 4px 14px var(--color-shadow);
+}
+
+.btn--primary:hover,
+.btn--primary:focus-visible {
+    background: var(--color-accent-dark);
+    text-decoration: none;
+    transform: translateY(-1px);
+}
+
+.btn--ghost {
+    background: transparent;
+    color: var(--color-text);
+    border-color: var(--color-text);
+}
+
+.btn--ghost:hover,
+.btn--ghost:focus-visible {
+    background: var(--color-text);
+    color: #fff;
+    text-decoration: none;
+}
+
+.btn--large {
+    padding: 0.9em 1.6em;
+    font-size: 1.1rem;
+}
+
+
+/* ----------------------------------------------------------
+   4. Header
+   ---------------------------------------------------------- */
+.site-header {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: rgba(245, 236, 220, 0.95);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border-bottom: 1px solid rgba(70, 45, 20, 0.1);
+}
+
+.site-header__inner {
+    max-width: var(--content-wide-max);
+    margin: 0 auto;
+    padding: 0 var(--space-3);
+    height: var(--header-height);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-3);
+}
+
+.site-header__brand {
+    display: flex;
+    flex-direction: column;
+    color: var(--color-text);
+}
+
+.site-header__brand:hover {
+    text-decoration: none;
+}
+
+.site-header__title {
+    font-family: var(--font-display);
+    font-size: 1.15rem;
+    letter-spacing: 0.5px;
+}
+
+.site-header__subtitle {
+    font-size: 0.75rem;
+    color: var(--color-text-muted);
+}
+
+.site-header__nav {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+}
+
+.site-header__nav a {
+    color: var(--color-text);
+    font-weight: 500;
+    font-size: 0.95rem;
+}
+
+.site-header__nav a.is-active {
+    color: var(--color-accent-dark);
+}
+
+.site-header__nav a.btn {
+    color: #fff;
+}
+
+
+/* ----------------------------------------------------------
+   5. Hero
+   ---------------------------------------------------------- */
+.hero {
+    position: relative;
+    overflow: hidden;
+    margin: 0 auto;
+    max-width: var(--content-wide-max);
+    padding: var(--space-3) var(--space-3) 0;
+}
+
+.hero__image {
+    width: 100%;
+    border-radius: var(--radius-lg);
+    box-shadow: 0 12px 40px var(--color-shadow);
+    object-fit: cover;
+}
+
+.hero__overlay {
+    margin: -120px auto 0;
+    max-width: 720px;
+    background: var(--color-surface);
+    border-radius: var(--radius-lg);
+    padding: var(--space-4);
+    text-align: center;
+    box-shadow: 0 10px 30px var(--color-shadow);
+    position: relative;
+    z-index: 2;
+}
+
+.hero__eyebrow {
+    margin: 0;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    font-size: 0.75rem;
+    color: var(--color-text-muted);
+}
+
+.hero__title {
+    font-size: clamp(2.2rem, 5vw, 3.5rem);
+    color: var(--color-accent-dark);
+    margin: var(--space-1) 0 var(--space-2);
+}
+
+.hero__lead {
+    font-size: 1.05rem;
+    color: var(--color-text-muted);
+    margin: 0 auto var(--space-3);
+    max-width: 540px;
+}
+
+.hero__actions {
+    display: flex;
+    gap: var(--space-2);
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+
+/* ----------------------------------------------------------
+   6. Table of contents
+   ---------------------------------------------------------- */
+.toc {
+    max-width: var(--content-max);
+    margin: var(--space-6) auto var(--space-5);
+    padding: 0 var(--space-3);
+}
+
+.toc__title {
+    font-size: 2rem;
+    color: var(--color-accent-dark);
+    text-align: center;
+    margin-bottom: var(--space-3);
+}
+
+.toc__list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: var(--space-1) var(--space-3);
+    counter-reset: toc;
+}
+
+.toc__list a {
+    counter-increment: toc;
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: var(--space-2);
+    padding: 0.7em 1em;
+    border-radius: var(--radius-sm);
+    color: var(--color-text);
+    font-weight: 500;
+    background: transparent;
+    transition: background 0.15s ease;
+}
+
+.toc__list a::before {
+    content: counter(toc, decimal-leading-zero);
+    color: var(--color-accent);
+    font-family: var(--font-display);
+    font-size: 0.85em;
+    flex-shrink: 0;
+    width: 2em;
+}
+
+.toc__list a:hover,
+.toc__list a:focus-visible {
+    background: var(--color-surface);
+    text-decoration: none;
+}
+
+.toc__page {
+    color: var(--color-text-muted);
+    font-variant-numeric: tabular-nums;
+    border-bottom: 1px dotted var(--color-text-muted);
+    flex-grow: 1;
+    text-align: right;
+    padding-left: var(--space-2);
+}
+
+.toc__list a span:first-of-type {
+    flex-grow: 1;
+}
+
+/* Adjust dotted-line layout */
+.toc__list a {
+    align-items: center;
+}
+
+.toc__list a > span:first-of-type {
+    border-bottom: 1px dotted rgba(106, 90, 72, 0.4);
+    flex-grow: 1;
+    padding-bottom: 2px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+.toc__list a > .toc__page {
+    border-bottom: none;
+    flex-grow: 0;
+    padding-left: var(--space-1);
+}
+
+
+/* ----------------------------------------------------------
+   7. Guide sections
+   ---------------------------------------------------------- */
+.guide {
+    max-width: var(--content-wide-max);
+    margin: 0 auto;
+    padding: 0 var(--space-3);
+}
+
+.section {
+    background: var(--color-surface);
+    border-radius: var(--radius-lg);
+    padding: var(--space-5) var(--space-4);
+    margin-bottom: var(--space-4);
+    box-shadow: 0 4px 20px var(--color-shadow);
+}
+
+.section__header {
+    text-align: center;
+    margin-bottom: var(--space-4);
+}
+
+.section__title {
+    font-size: clamp(1.6rem, 3.5vw, 2.4rem);
+    color: var(--color-accent-dark);
+    margin-bottom: var(--space-1);
+}
+
+.section__subtitle {
+    font-size: clamp(1.3rem, 3vw, 1.8rem);
+    color: var(--color-accent-dark);
+    margin: var(--space-5) 0 var(--space-2);
+    font-family: var(--font-display);
+}
+
+.section__intro {
+    color: var(--color-text-muted);
+    max-width: 60ch;
+    margin: 0 auto;
+    font-size: 1rem;
+}
+
+.section__notes {
+    max-width: 64ch;
+    margin: 0 auto var(--space-3);
+    padding-left: var(--space-3);
+    color: var(--color-text-muted);
+    font-size: 0.9rem;
+}
+
+.section__notes li + li {
+    margin-top: 0.3em;
+}
+
+
+/* ----------------------------------------------------------
+   7b. Parts grid (individual part cards)
+   ---------------------------------------------------------- */
+.parts-grid {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+    gap: var(--space-2);
+}
+
+.parts-grid figure {
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-1);
+    transition: transform 0.2s ease;
+}
+
+.parts-grid figure:hover {
+    transform: translateY(-3px);
+}
+
+.parts-grid img {
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    object-fit: contain;
+    background: transparent;
+}
+
+.parts-grid figcaption {
+    font-family: var(--font-display);
+    font-size: 0.85rem;
+    color: var(--color-text);
+    text-align: center;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+}
+
+
+/* ----------------------------------------------------------
+   7c. Composite page fallback (page 7)
+   ---------------------------------------------------------- */
+.composite-figure {
+    margin: var(--space-3) 0 0;
+    text-align: center;
+}
+
+.composite-figure img {
+    margin: 0 auto;
+    border-radius: var(--radius-md);
+    background: var(--color-bg);
+}
+
+
+/* ----------------------------------------------------------
+   7d. Symbols layout
+   ---------------------------------------------------------- */
+.symbols-layout {
+    display: grid;
+    grid-template-columns: 220px 1fr;
+    gap: var(--space-4);
+    align-items: center;
+    margin-top: var(--space-3);
+}
+
+.symbols-layout__preview {
+    margin: 0;
+}
+
+.symbols-layout__preview img {
+    width: 100%;
+    height: auto;
+}
+
+.symbols-layout__keys {
+    display: grid;
+    gap: var(--space-3);
+}
+
+.symbols-key__title {
+    font-family: var(--font-display);
+    font-size: 1rem;
+    color: var(--color-accent-dark);
+    margin: 0 0 var(--space-1);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.symbols-key__list {
+    font-family: var(--font-display);
+    margin: 0;
+    color: var(--color-text);
+    word-spacing: 0.2em;
+    font-size: 1rem;
+}
+
+
+/* ----------------------------------------------------------
+   8. Text-heavy section (Changing Colors / Disable Parts)
+   ---------------------------------------------------------- */
+.section--text .text-layout {
+    display: grid;
+    grid-template-columns: 1.1fr 1fr;
+    gap: var(--space-4);
+    align-items: start;
+}
+
+.steps {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    counter-reset: step;
+}
+
+.steps li {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--space-2);
+    padding: var(--space-2) 0;
+    border-bottom: 1px dashed rgba(106, 90, 72, 0.2);
+}
+
+.steps li:last-child {
+    border-bottom: none;
+}
+
+.steps__num {
+    flex-shrink: 0;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    border-radius: 999px;
+    background: var(--color-accent);
+    color: #fff;
+    font-family: var(--font-display);
+    font-size: 0.95rem;
+}
+
+.steps__body {
+    flex-grow: 1;
+    color: var(--color-text);
+}
+
+.text-layout__figure {
+    margin: 0;
+    background: var(--color-bg);
+    border-radius: var(--radius-md);
+    padding: var(--space-2);
+}
+
+.text-layout__figure img {
+    border-radius: var(--radius-sm);
+}
+
+.disable-list {
+    columns: 2;
+    column-gap: var(--space-4);
+    list-style: square;
+    margin: var(--space-3) 0 0;
+    padding-left: var(--space-3);
+    color: var(--color-text);
+}
+
+.disable-list li {
+    break-inside: avoid;
+    margin-bottom: 0.4em;
+}
+
+.disable-list__parent {
+    color: var(--color-text-muted);
+    font-size: 0.85em;
+}
+
+
+/* ----------------------------------------------------------
+   9. CTA & Footer
+   ---------------------------------------------------------- */
+.cta {
+    text-align: center;
+    padding: var(--space-6) var(--space-3);
+    background: var(--color-surface-alt);
+    margin-top: var(--space-5);
+}
+
+.cta__title {
+    font-size: clamp(1.6rem, 3.5vw, 2.4rem);
+    color: var(--color-accent-dark);
+    margin-bottom: var(--space-2);
+}
+
+.cta__lead {
+    color: var(--color-text-muted);
+    margin-bottom: var(--space-3);
+}
+
+.site-footer {
+    text-align: center;
+    padding: var(--space-4) var(--space-3);
+    color: var(--color-text-muted);
+    font-size: 0.85rem;
+}
+
+.site-footer p {
+    margin: 0.3em 0;
+}
+
+.site-footer__small {
+    font-size: 0.8rem;
+    opacity: 0.8;
+}
+
+
+/* ----------------------------------------------------------
+   10. Back-to-top button
+   ---------------------------------------------------------- */
+.back-to-top {
+    position: fixed;
+    right: var(--space-3);
+    bottom: var(--space-3);
+    width: 48px;
+    height: 48px;
+    border-radius: 999px;
+    border: none;
+    background: var(--color-accent);
+    color: #fff;
+    font-size: 1.3rem;
+    cursor: pointer;
+    box-shadow: 0 6px 20px var(--color-shadow);
+    transition: transform 0.2s ease, opacity 0.2s ease;
+    z-index: 90;
+}
+
+.back-to-top:hover {
+    background: var(--color-accent-dark);
+    transform: translateY(-2px);
+}
+
+
+/* ----------------------------------------------------------
+   11. Responsive
+   ---------------------------------------------------------- */
+@media (max-width: 800px) {
+    .site-header__nav a:not(.btn) {
+        display: none;
+    }
+
+    .hero__overlay {
+        margin-top: -60px;
+        padding: var(--space-3) var(--space-2);
+    }
+
+    .section {
+        padding: var(--space-4) var(--space-2);
+    }
+
+    .section--text .text-layout,
+    .symbols-layout {
+        grid-template-columns: 1fr;
+    }
+
+    .disable-list {
+        columns: 1;
+    }
+}
+
+@media (max-width: 500px) {
+    .site-header__brand .site-header__subtitle {
+        display: none;
+    }
+
+    .toc__list {
+        grid-template-columns: 1fr;
+    }
+
+    .hero {
+        padding: var(--space-2);
+    }
+
+    .hero__overlay {
+        margin-top: -30px;
+    }
+}
+
+
+/* ----------------------------------------------------------
+   12. Print
+   ---------------------------------------------------------- */
+@media print {
+    .site-header,
+    .back-to-top,
+    .cta,
+    .site-header__nav,
+    .toc {
+        display: none !important;
+    }
+
+    body {
+        background: #fff;
+    }
+
+    .section {
+        box-shadow: none;
+        page-break-after: always;
+    }
+}
